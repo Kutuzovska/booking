@@ -12,8 +12,8 @@ class DateInterval extends Model
      * @throws Exception
      */
     public function __construct(
-        private string $from,
-        private string $to,
+        private ?string $from,
+        private ?string $to,
     )
     {
         parent::__construct([]);
@@ -37,11 +37,11 @@ class DateInterval extends Model
 
     public function getFrom(): string
     {
-        return $this->from;
+        return $this->from ?: '';
     }
 
     public function getTo(): string
     {
-        return $this->to;
+        return $this->to ?: '';
     }
 }
