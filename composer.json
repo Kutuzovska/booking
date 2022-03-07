@@ -1,0 +1,27 @@
+{
+  "require": {
+    "yiisoft/yii2": "~2.0.0",
+    "vlucas/phpdotenv": "^5.3",
+    "ramsey/uuid": "^4.2",
+    "lcobucci/jwt": "^4.1"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "app\\": "src"
+    }
+  },
+  "require-dev": {
+    "vimeo/psalm": "^4.22"
+  },
+  "config": {
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true
+    }
+  }
+}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css" integrity="sha512-IgmDkwzs96t4SrChW29No3NXBIBv8baW490zk5aXvhCD8vuZM3yUSkbyTBcXohkySecyzIrUwiF/qV0cuPcL3Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            width: 100vw;
+        }
+    </style>
+</head>
+<body>
+
+<main class="p-4 is-flex">
+    <form class="box mr-3" id="form" style="width: 300px;">
+        <div class="field">
+            <label class="label">Имя</label>
+            <div class="control">
+                <input class="input" required name="name" type="text" placeholder="Иван">
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Почта</label>
+            <div class="control">
+                <input class="input" required name="email" type="email" placeholder="example.com">
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Заезд</label>
+            <div class="control">
+                <input class="input" required name="from" type="date">
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Выезд</label>
+            <div class="control">
+                <input class="input" required name="to" type="date">
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="control">
+                <button class="button is-link is-fullwidth">Свободные номера</button>
+            </div>
+        </div>
+    </form>
+
+    <table class="table">
+        <thead>
+            <th>Тип номера</th>
+            <th>Свободных</th>
+        </thead>
+
+         <tbody id="tbody">
+
+         </tbody>
+    </table>
+</main>
+
+<script type="application/javascript">
+    const form = document.getElementById('form');
+    const tbody = document.getElementById('tbody');
+
+    const getRooms = async () => {
+        try {
+            const response = await fetch(`/v1/rooms?from=${form.from.value}&to=${form.to.value}`);
+            const data = await response.json();
+            //    TODO: Сделать вывод комнат
+        } catch(e) {
+            console.error(e)
+        }
+    }
+
+    const reserve = async (roomId) => {
+        const params = {
+            room_id: roomId,
+            email: form.email.value,
+            name: form.name.value,
+            from: form.from.value,
+            to: form.to.value,
+        }
+
+        await fetch('/v1/reservation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(params)
+        });
+
+        await getRooms();
+    }
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        await getRooms();
+    });
+</script>
+
+</body>
+</html>
