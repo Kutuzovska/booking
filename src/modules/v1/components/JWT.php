@@ -8,7 +8,6 @@ use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
-use Lcobucci\JWT\Token;
 use Lcobucci\JWT\UnencryptedToken;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use yii\base\BaseObject;
@@ -23,7 +22,7 @@ class JWT extends BaseObject
     public function __construct(array $config)
     {
         $this->signer = new Sha256();
-        $this->signer_key = InMemory::plainText((string) $config['key']);
+        $this->signer_key = InMemory::plainText((string)$config['key']);
         $this->jwt = Configuration::forSymmetricSigner($this->signer, $this->signer_key);
         parent::__construct($config);
     }

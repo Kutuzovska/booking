@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace app\modules\v1\controllers;
 
+use app\modules\v1\models\DateInterval;
 use app\modules\v1\services\RoomService;
+use Exception;
 use Yii;
 use yii\filters\auth\HttpBearerAuth;
 use yii\rest\Controller;
@@ -14,9 +16,7 @@ class RoomController extends Controller
     public function behaviors(): array
     {
         $behaviors = parent::behaviors();
-        $behaviors['authenticator'] = [
-            'class' => HttpBearerAuth::class,
-        ];
+        $behaviors['authenticator']['class'] = HttpBearerAuth::class;
         return $behaviors;
     }
 
@@ -27,10 +27,12 @@ class RoomController extends Controller
     {
         $from = Yii::$app->request->getQueryParam('from');
         $to = Yii::$app->request->getQueryParam('to');
-        if (empty($from) || empty($to))
-            throw new BadRequestHttpException('Invalid query params');
 
-        $service = new RoomService();
-        return $service->getFreeRoom($from, $to);
+        try {
+            $dateInterval = new DateInterval($from, $to);
+            return (new RoomService())->getFreeRooms($dateInterval);
+        } catch (Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
     }
 }

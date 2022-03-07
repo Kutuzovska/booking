@@ -10,9 +10,9 @@ return [
     ],
     'components' => [
         'db' => require __DIR__ . '/db.php',
-        'user' => require __DIR__.'/user.php',
+        'user' => require __DIR__ . '/user.php',
     ],
-    'controllerMap' =>  [
+    'controllerMap' => [
         'migrate' => [
             'class' => 'yii\console\controllers\MigrateController',
             'migrationPath' => __DIR__ . '/../migrations',

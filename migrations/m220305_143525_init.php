@@ -61,7 +61,7 @@ class m220305_143525_init extends Migration
             'RESTRICT',
         );
         $this->addForeignKey(
-          'fk-booking-user_id',
+            'fk-booking-user_id',
             '{{%booking}}',
             'user_id',
             '{{%users}}',

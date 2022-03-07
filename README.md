@@ -41,4 +41,5 @@
 
 1. docker-compose build
 2. docker-compose up -d
-3. docker-compose exec php ./yii migrate --interactive=0
+3. docker-compose exec php composer install
+4. docker-compose exec php ./yii migrate --interactive=0

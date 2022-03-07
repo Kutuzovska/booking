@@ -3,29 +3,37 @@ declare(strict_types=1);
 
 namespace app\modules\v1\controllers;
 
-use app\modules\v1\services\ReservationService;
+use app\modules\v1\models\DateInterval;
+use app\modules\v1\services\BookingService;
 use Exception;
 use Yii;
-use yii\base\InvalidConfigException;
+use yii\filters\auth\HttpBearerAuth;
 use yii\rest\Controller;
+use yii\web\BadRequestHttpException;
 
 class BookingController extends Controller
 {
     public function behaviors(): array
     {
         $behaviors = parent::behaviors();
-        unset($behaviors['rateLimiter']);
+        $behaviors['authenticator']['class'] = HttpBearerAuth::class;
         return $behaviors;
     }
 
     /**
-     * @throws InvalidConfigException
-     * @throws Exception
+     * @throws BadRequestHttpException
      */
-    public function actionCreate(): void
+    public function actionCreate()
     {
-//        $data = Yii::$app->request->getBodyParams();
-//        $service = new ReservationService();
-//        $service->book($data);
+        $roomTypeId = (string)Yii::$app->request->getBodyParam('room_type_id');
+        $from = (string)Yii::$app->request->getBodyParam('from');
+        $to = (string)Yii::$app->request->getBodyParam('to');
+
+        try {
+            $dateInterval = new DateInterval($from, $to);
+            (new BookingService())->book($roomTypeId, $dateInterval);
+        } catch (Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
     }
 }

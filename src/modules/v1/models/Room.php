@@ -8,8 +8,8 @@ use yii\db\ActiveRecord;
 
 /**
  * @property string id
- * @property string name
  * @property string type_id
+ * @property string $comment
  */
 class Room extends ActiveRecord
 {
@@ -22,5 +22,4 @@ class Room extends ActiveRecord
     {
         return $this->hasOne(RoomType::class, ['id' => 'type_id']);
     }
-
 }

@@ -1,0 +1,35 @@
+### User:Login
+// @no-log
+POST http://localhost:80/v1/users/login
+Accept: application/json
+Content-Type: application/json
+
+{
+    "name": "admin",
+    "password": "admin"
+}
+
+> {% client.global.set("token", response.body); %}
+
+
+
+### Room:Index
+// @no-log
+GET http://localhost:80/v1/rooms?from=2020-03-10&to=2022-03-12
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+### Booking:Create
+// @no-log
+POST http://localhost:80/v1/booking
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "room_type_id": "40256624-7a25-45db-a621-aa25b6a16a72",
+    "from": "2022-03-10",
+    "to": "2022-03-12"
+}

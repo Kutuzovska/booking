@@ -23,8 +23,8 @@ class UserController extends Controller
      */
     public function actionLogin(): string
     {
-        $name = (string) Yii::$app->request->getBodyParam('name');
-        $password = (string) Yii::$app->request->getBodyParam('password');
+        $name = (string)Yii::$app->request->getBodyParam('name');
+        $password = (string)Yii::$app->request->getBodyParam('password');
 
         try {
             return (new UserService())->login($name, $password);
